@@ -1,1 +1,68 @@
+# Promptify Agent
 
+Promptify Agent is an AI-powered agent built using the `google.adk` framework. Its primary mission is to act as an elite Prompt Engineer and Communication Strategist by transforming fragmented, natural language inputs into high-precision, token-efficient system instructions.
+
+## Key Features
+
+- **Domain Adaptation:** Identifies the context (Technical, Educational, Creative, Research) and injects domain-specific constraints (e.g., LaTeX for math, PEP8 for Python, or academic sourcing for research).
+- **Token Optimization:** Eliminates fluff. Uses concise, impactful directives to minimize user-side tokens while maximizing the model's output quality.
+- **Copyright Compliance:** Excludes copyrighted names, characters, or intellectual property unless explicitly requested.
+- **Safety & Ethics:** Strictly refuses to generate prompts for financial, medical, or legal advice, or anything involving confidential/personal data.
+- **Zero-Ambiguity Design:** Structures prompts to anticipate common edge cases, significantly reducing the need for user follow-ups.
+
+## Prerequisites
+
+- Python 3.8 or higher
+- A Gemini API Key (Generate one at [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key))
+- Google Cloud SDK (for Cloud Logging authentication)
+
+## Installation
+
+1. **Navigate to the project directory:**
+   ```bash
+   cd promptify-agent
+   ```
+
+2. **Create and activate a virtual environment (recommended):**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. **Install dependencies:**
+   The primary dependency is `google-adk`. Since the script also uses `dotenv` and `google-cloud-logging`, ensure they are installed:
+   ```bash
+   pip install -r requirements.txt
+   pip install python-dotenv google-cloud-logging google-auth
+   ```
+
+## Configuration
+
+1. **Environment Variables:**
+   The agent requires certain environment variables to run. You can use the provided `env.txt` as a template to create a `.env` file.
+   ```bash
+   cp env.txt .env
+   ```
+   Edit the `.env` file and make sure at least the following variables are correctly set:
+   ```env
+   MODEL="gemini-2.5-flash"
+   GEMINI_API_KEY="your_api_key_here"
+   ```
+   *(Optional)* If you are using specific Google Cloud resources linked to a service account, you can also configure `PROJECT_ID`, `SERVICE_ACCOUNT`, etc. as seen in the template.
+
+2. **Google Cloud Authentication:**
+   The agent initializes a Google Cloud Logging client (`google.cloud.logging.Client().setup_logging()`). You must authenticate your environment with Google Cloud.
+   
+   If you have the `gcloud` CLI installed, run:
+   ```bash
+   gcloud auth application-default login
+   ```
+   Alternatively, set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to point to your service account key JSON file.
+
+## Running the Agent
+
+Once your environment is set up and authenticated, you can start the Promptify Agent by running:
+
+```bash
+python agent.py
+```
